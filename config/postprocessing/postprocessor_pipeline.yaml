@@ -12,14 +12,14 @@ elevation_mapping:
           radius: 0.05
 
       # Compute Surface normals
-      filter2:
-        name: surface_normals
-        type: gridMapFilters/NormalVectorsFilter
-        params:
-          input_layer: elevation_inpainted
-          output_layers_prefix: normal_vectors_
-          radius: 0.1
-          normal_vector_positive_axis: z
+      # filter2:
+      #   name: surface_normals
+      #   type: gridMapFilters/NormalVectorsFilter
+      #   params:
+      #     input_layer: elevation_inpainted
+      #     output_layers_prefix: normal_vectors_
+      #     radius: 0.1
+      #     normal_vector_positive_axis: z
 
       #  Delete layers that are not needed to reduce bandwidth
       # filter3:

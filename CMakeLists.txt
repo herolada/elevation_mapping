@@ -155,6 +155,21 @@ target_link_libraries(${PROJECT_NAME}
   ${PROJECT_NAME}_library
 )
 
+######################################
+add_executable(pose_publisher_node src/pose_publisher_node.cpp)
+
+ament_target_dependencies(pose_publisher_node
+  rclcpp
+  nav_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
+)
+
+install(TARGETS pose_publisher_node DESTINATION lib/${PROJECT_NAME})
+######################################
+
+
 #############
 ## Install ##
 #############
