@@ -385,6 +385,9 @@ void ElevationMapping::pointCloudCallback(sensor_msgs::msg::PointCloud2::ConstSh
     return;
   }
 
+  // RCLCPP_WARN(this->nodeHandle_->get_logger(), "in %u %u %u %u %u\n", pointCloudMsg->data[0],pointCloudMsg->data[1],
+    // pointCloudMsg->data[2],pointCloudMsg->data[3],pointCloudMsg->data[4]);
+
   // Check if point cloud has corresponding robot pose at the beginning
   if (!receivedFirstMatchingPointcloudAndPose_) {
     const double oldestPoseTime = robotPoseCache_.getOldestTime().seconds();
@@ -407,8 +410,16 @@ void ElevationMapping::pointCloudCallback(sensor_msgs::msg::PointCloud2::ConstSh
   pcl::PCLPointCloud2 pcl_pc;
   pcl_conversions::toPCL(*pointCloudMsg, pcl_pc);
 
+  // RCLCPP_WARN(this->nodeHandle_->get_logger(), "pcl_pc %d %d %d %d %d\n", pcl_pc.data[0],pcl_pc.data[1],
+  // pcl_pc.data[2],pcl_pc.data[3],pcl_pc.data[4]);
+
+
   PointCloudType::Ptr pointCloud(new PointCloudType);
   pcl::fromPCLPointCloud2(pcl_pc, *pointCloud);
+
+  // RCLCPP_WARN(this->nodeHandle_->get_logger(), "pointCloud %f %f %f %f %f\n", pointCloud->at(0,0).x,pointCloud->at(0,1).x,
+  // pointCloud->at(0,2).x,pointCloud->at(0,3).x,pointCloud->at(0,4).x);
+
   lastPointCloudUpdateTime_ = rclcpp::Time(1000 * pointCloud->header.stamp, RCL_ROS_TIME);
 
   // RCLCPP_INFO(nodeHandle_->get_logger(), "ElevationMap received a point cloud (%i points) for elevation mapping.", static_cast<int>(pointCloud->size()));
@@ -449,6 +460,9 @@ void ElevationMapping::pointCloudCallback(sensor_msgs::msg::PointCloud2::ConstSh
     // resetMapUpdateTimer();
     return;
   }
+  //   RCLCPP_WARN(this->nodeHandle_->get_logger(), "pointCloudProcessed %f %f %f %f %f\n", pointCloudProcessed->at(0,0).x,pointCloudProcessed->at(0,1).x,
+  // pointCloudProcessed->at(0,2).x,pointCloudProcessed->at(0,3).x,pointCloudProcessed->at(0,4).x);
+
   
   // RCLCPP_INFO_STREAM(nodeHandle_->get_logger(),"Variance is:"<<measurementVariances[0]<<" , "<<measurementVariances[10]<<" , "<<measurementVariances[100]<<" , "<<measurementVariances[110]<<" , "<<measurementVariances[120]);
 
@@ -456,6 +470,8 @@ void ElevationMapping::pointCloudCallback(sensor_msgs::msg::PointCloud2::ConstSh
 
   // Update map location.
   updateMapLocation();
+
+  // RCLCPP_WARN(this->nodeHandle_->get_logger(), "~~~~~~~~ %f\n", map_.getRawGridMap().get("elevation")(0,0));
 
   // Update map from motion prediction.
   if (!updatePrediction(lastPointCloudUpdateTime_)) {
@@ -616,6 +632,8 @@ bool ElevationMapping::updateMapLocation() {
   kindr_ros::convertFromRosGeometryMsg(trackPointTransformed.point, position3d);
   grid_map::Position position = position3d.vector().head(2);
   map_.move(position);
+
+  // RCLCPP_WARN(nodeHandle_->get_logger(), "Elevation map moved to position x=%f, y=%f.", position.x(), position.y());
   return true;
 }
 

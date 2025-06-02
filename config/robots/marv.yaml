@@ -1,6 +1,6 @@
 /**:
   ros__parameters:
-    map_frame_id:                               odom
+    map_frame_id:                               gps_odom
     robot_base_frame_id:                        base_link
     robot_pose_with_covariance_topic:           /base_link_pose
     robot_pose_cache_size:                      200

@@ -23,6 +23,13 @@ def generate_launch_description():
                 executable='pose_publisher_node',
                 name='pose_publisher_node',
                 output='screen',
+                parameters=list_params,
+            ),
+            launch_ros.actions.Node(
+                package='elevation_mapping',
+                executable='gridmap_to_pointcloud_node',
+                name='gridmap_to_pointcloud_node',
+                output='screen',
             ),
             launch_ros.actions.Node(
                 package='elevation_mapping',
@@ -41,12 +48,12 @@ def generate_launch_description():
             #    'robot_description': launch.substitutions.Command(['xacro', ' ', xacro_path])
             #}]
         #)
-            launch_ros.actions.Node(
-                package= 'rviz2',
-                executable= 'rviz2',
-                name= 'rviz',
-                arguments= ['--display-config', os.path.join(share_dir, 'rviz2', 'custom_rviz2.rviz')],
-                output= 'screen'
-            )
+            # launch_ros.actions.Node(
+            #     package= 'rviz2',
+            #     executable= 'rviz2',
+            #     name= 'rviz',
+            #     arguments= ['--display-config', os.path.join(share_dir, 'rviz2', 'custom_rviz2.rviz')],
+            #     output= 'screen'
+            # )
         ]
     )

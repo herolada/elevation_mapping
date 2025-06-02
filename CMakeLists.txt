@@ -168,7 +168,16 @@ ament_target_dependencies(pose_publisher_node
 
 install(TARGETS pose_publisher_node DESTINATION lib/${PROJECT_NAME})
 ######################################
+add_executable(gridmap_to_pointcloud_node src/gridmap_to_pointcloud.cpp)
 
+ament_target_dependencies(gridmap_to_pointcloud_node
+  rclcpp
+  grid_map_msgs
+  grid_map_ros
+  sensor_msgs
+)
+
+install(TARGETS gridmap_to_pointcloud_node DESTINATION lib/${PROJECT_NAME})
 
 #############
 ## Install ##

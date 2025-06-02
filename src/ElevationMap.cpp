@@ -121,6 +121,7 @@ bool ElevationMap::add(const PointCloudType::Ptr pointCloud, Eigen::VectorXf& po
 
     auto& elevation = elevationLayer(index(0), index(1));
     auto& variance = varianceLayer(index(0), index(1));
+    // RCLCPP_WARN(nodeHandle_->get_logger(), "variance from layer: %f", variance);
     auto& horizontalVarianceX = horizontalVarianceXLayer(index(0), index(1));
     auto& horizontalVarianceY = horizontalVarianceYLayer(index(0), index(1));
     auto& horizontalVarianceXY = horizontalVarianceXYLayer(index(0), index(1));
