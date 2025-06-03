@@ -11,6 +11,10 @@ public:
   GridMapToPointCloudNode()
   : Node("gridmap_to_pointcloud_node")
   {
+    // Declare and get the boolean parameter
+    this->declare_parameter<bool>("lower_bound", true);
+    lower_bound_ = this->get_parameter("lower_bound").as_bool();
+
     subscription_ = this->create_subscription<grid_map_msgs::msg::GridMap>(
       "/elevation_map", 10,
       std::bind(&GridMapToPointCloudNode::gridMapCallback, this, std::placeholders::_1));
@@ -22,13 +26,11 @@ public:
 private:
   void gridMapCallback(const grid_map_msgs::msg::GridMap::SharedPtr msg)
   {
-    // Convert ROS message to grid_map object
     grid_map::GridMap map;
     grid_map::GridMapRosConverter::fromMessage(*msg, map);
+    
+    std::string layer = lower_bound_ ? "lower_bound" : "elevation";
 
-    std::string layer = "elevation"; // Name of the layer you want to convert
-
-    // Convert to PointCloud2
     sensor_msgs::msg::PointCloud2 cloud_msg;
     if (map.exists(layer)) {
       grid_map::GridMapRosConverter::toPointCloud(map, layer, cloud_msg);
@@ -39,6 +41,7 @@ private:
     }
   }
 
+  bool lower_bound_;
   rclcpp::Subscription<grid_map_msgs::msg::GridMap>::SharedPtr subscription_;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr publisher_;
 };

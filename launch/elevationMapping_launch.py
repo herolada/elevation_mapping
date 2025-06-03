@@ -30,6 +30,7 @@ def generate_launch_description():
                 executable='gridmap_to_pointcloud_node',
                 name='gridmap_to_pointcloud_node',
                 output='screen',
+                parameters=list_params,
             ),
             launch_ros.actions.Node(
                 package='elevation_mapping',
