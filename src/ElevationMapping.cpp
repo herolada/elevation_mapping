@@ -82,10 +82,10 @@ ElevationMapping::ElevationMapping(std::shared_ptr<rclcpp::Node>& nodeHandle) :
 }
 
 void ElevationMapping::setupSubscribers() {  // Handle deprecated point_cloud_topic and input_sources configuration.
-  auto res = nodeHandle_->get_topic_names_and_types();
-  for (auto a:res){
-    RCLCPP_INFO(nodeHandle_->get_logger(), "topic: %s", a.first.c_str());
-  }
+  // auto res = nodeHandle_->get_topic_names_and_types();
+  // for (auto a:res){
+  //   RCLCPP_INFO(nodeHandle_->get_logger(), "topic: %s", a.first.c_str());
+  // }
 
   const bool configuredInputSources = inputSources_.configureFromRos("input_sources");
   const bool hasDeprecatedPointcloudTopic = nodeHandle_->get_parameter("point_cloud_topic", pointCloudTopic_);

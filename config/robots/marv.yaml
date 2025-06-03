@@ -2,7 +2,7 @@
   ros__parameters:
     map_frame_id:                               gps_odom
     robot_base_frame_id:                        base_link
-    robot_pose_with_covariance_topic:           /base_link_pose
+    robot_pose_with_covariance_topic:           /gps_odom
     robot_pose_cache_size:                      200
     inputs: ["front"]
     front: # A name to identify the input source

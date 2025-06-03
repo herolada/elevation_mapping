@@ -14,7 +14,6 @@ namespace elevation_mapping {
 InputSourceManager::InputSourceManager(const std::shared_ptr<rclcpp::Node>& nodeHandle) : nodeHandle_(nodeHandle) {}
 
 bool InputSourceManager::configureFromRos(const std::string& inputSourcesNamespace) {
-  RCLCPP_WARN(nodeHandle_->get_logger(),"AAAAAAAAAAAAA\n");
   nodeHandle_->declare_parameter("inputs", std::vector<std::string>());
 
   // Configure the visualizations from a configuration stored on the parameter server.
@@ -28,16 +27,13 @@ bool InputSourceManager::configureFromRos(const std::string& inputSourcesNamespa
         inputSourcesNamespace.c_str());
     return false;
   }
-  RCLCPP_WARN(nodeHandle_->get_logger(),"BBBBBBBBBBBB\n");
   return configure(inputSourcesConfiguration, inputSourcesNamespace);  
 }
 
 bool InputSourceManager::configure(const std::vector<std::string>& config, const std::string& sourceConfigurationName) {
-  RCLCPP_WARN(nodeHandle_->get_logger(),"a\n");
   if (config.size() == 0) {  // Use Empty array as special case to explicitly configure no inputs.
     return true;
   }
-  RCLCPP_WARN(nodeHandle_->get_logger(),"b\n");
 
   bool successfulConfiguration = true;
   std::set<std::string> subscribedTopics;
@@ -45,7 +41,6 @@ bool InputSourceManager::configure(const std::vector<std::string>& config, const
                                                                       nodeHandle_->get_parameter("map_frame_id").as_string()};
   // Configure all input sources in the list.
   for (auto inputConfig : config) {
-    RCLCPP_WARN(nodeHandle_->get_logger(),"c\n");
 
     // FIXME: fix namespace and subnode
     // return leading / -> rclcpp::expand_topic_or_service_name(sourceConfigurationName + "/" + inputConfig, nodeHandle_->get_name(), nodeHandle_->get_namespace()
@@ -54,7 +49,6 @@ bool InputSourceManager::configure(const std::vector<std::string>& config, const
 
     bool configured = source.configure(inputConfig, sourceConfigurationName, generalSensorProcessorConfig);
     if (!configured) {
-      RCLCPP_WARN(nodeHandle_->get_logger(),"d\n");
       successfulConfiguration = false;
       continue;
     }
@@ -63,7 +57,6 @@ bool InputSourceManager::configure(const std::vector<std::string>& config, const
     bool topicIsUnique = subscribedTopics.insert(subscribedTopic).second;
 
     if (topicIsUnique) {
-      RCLCPP_WARN(nodeHandle_->get_logger(),"e\n");
       sources_.push_back(std::move(source));
     } else {
       RCLCPP_WARN(nodeHandle_->get_logger(),
@@ -73,7 +66,6 @@ bool InputSourceManager::configure(const std::vector<std::string>& config, const
       successfulConfiguration = false;
     }
   }
-  RCLCPP_WARN(nodeHandle_->get_logger(),"f\n");
   return successfulConfiguration;
 }
 

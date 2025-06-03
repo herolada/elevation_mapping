@@ -18,13 +18,13 @@ def generate_launch_description():
         
     return launch.LaunchDescription(
         [
-            launch_ros.actions.Node(
-                package='elevation_mapping',
-                executable='pose_publisher_node',
-                name='pose_publisher_node',
-                output='screen',
-                parameters=list_params,
-            ),
+            # launch_ros.actions.Node(
+            #     package='elevation_mapping',
+            #     executable='pose_publisher_node',
+            #     name='pose_publisher_node',
+            #     output='screen',
+            #     parameters=list_params,
+            # ),
             launch_ros.actions.Node(
                 package='elevation_mapping',
                 executable='gridmap_to_pointcloud_node',
