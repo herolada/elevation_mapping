@@ -11,8 +11,34 @@ elevation_mapping:
           output_layer: elevation_inpainted
           radius: 0.05
 
+      #  Delete layers that are not needed to reduce bandwidth
+      filter2:
+        name: delete_original_layers
+        type: gridMapFilters/DeletionFilter
+        params:
+          layers: [variance, horizontal_variance_x, horizontal_variance_y,
+           horizontal_variance_xy, color, time, dynamic_time,
+           lowest_scan_point,sensor_x_at_lowest_scan, sensor_y_at_lowest_scan,
+           sensor_z_at_lowest_scan] # List of layers.
+
+      # MEDIAN FILL NOT AVAILABLE FOR ROS2
+      #  Delete layers that are not needed to reduce bandwidth
+      # filter3:
+      #   name: median_fill
+      #   type: gridMapFilters/MedianFillFilter
+      #   params:
+      #     input_layer: elevation
+      #     output_layer: elevation_filled
+      #     fill_hole_radius: 0.11 # in m. 
+      #     filter_existing_values: false # Default is false. If enabled it also does a median computation for existing values. 
+      #     existing_value_radius: 0.2 # in m. Note that this option only has an effect if filter_existing_values is set true. 
+      #     fill_mask_layer: fill_mask # A layer that is used to compute which areas to fill. If not present in the input it is automatically computed. 
+      #     debug: false # If enabled, the additional debug_infill_mask_layer is published. 
+      #     debug_infill_mask_layer: infill_mask # Layer used to visualize the intermediate, sparse-outlier removed fill mask. Only published if debug is enabled.
+    
+
       # Compute Surface normals
-      # filter2:
+      # filter3:
       #   name: surface_normals
       #   type: gridMapFilters/NormalVectorsFilter
       #   params:
@@ -20,10 +46,3 @@ elevation_mapping:
       #     output_layers_prefix: normal_vectors_
       #     radius: 0.1
       #     normal_vector_positive_axis: z
-
-      #  Delete layers that are not needed to reduce bandwidth
-      # filter3:
-      #   name: delete_original_layers
-      #   type: gridMapFilters/DeletionFilter
-      #   params:
-      #     layers: [lowest_scan_point,sensor_x_at_lowest_scan, sensor_y_at_lowest_scan, sensor_z_at_lowest_scan] # List of layers.
