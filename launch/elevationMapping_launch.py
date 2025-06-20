@@ -33,6 +33,14 @@ def launch_setup(context, *args, **kwargs):
         ),
         Node(
             package='elevation_mapping',
+            executable='elevation_to_occupancy_node',
+            name='elevation_to_occupancy_node',
+            output='screen',
+            parameters=list_params,
+            remappings=remappings,
+        ),
+        Node(
+            package='elevation_mapping',
             executable='elevation_mapping',
             name='elevation_mapping',
             output='screen',

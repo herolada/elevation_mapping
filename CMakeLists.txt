@@ -178,6 +178,18 @@ ament_target_dependencies(gridmap_to_pointcloud_node
 )
 
 install(TARGETS gridmap_to_pointcloud_node DESTINATION lib/${PROJECT_NAME})
+######################################
+add_executable(elevation_to_occupancy_node src/elevation_to_occupancy_node.cpp)
+
+ament_target_dependencies(elevation_to_occupancy_node
+  rclcpp
+  nav_msgs
+  grid_map_ros
+  grid_map_msgs
+)
+
+install(TARGETS elevation_to_occupancy_node DESTINATION lib/${PROJECT_NAME})
+######################################
 
 #############
 ## Install ##

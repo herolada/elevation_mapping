@@ -12,8 +12,9 @@ public:
   : Node("gridmap_to_pointcloud_node")
   {
     // Declare and get the boolean parameter
-    this->declare_parameter<bool>("lower_bound", true);
-    lower_bound_ = this->get_parameter("lower_bound").as_bool();
+    // this->declare_parameter<bool>("lower_bound", true);
+    // lower_bound_ = this->get_parameter("lower_bound").as_bool();
+    occupancy_layer_ = this->declare_parameter("elevation_layer", std::string("elevation"));
 
     subscription_ = this->create_subscription<grid_map_msgs::msg::GridMap>(
       "/elevation_map", 10,
@@ -29,19 +30,20 @@ private:
     grid_map::GridMap map;
     grid_map::GridMapRosConverter::fromMessage(*msg, map);
     
-    std::string layer = lower_bound_ ? "lower_bound" : "elevation";
+    // std::string layer = lower_bound_ ? "lower_bound" : "elevation";
 
     sensor_msgs::msg::PointCloud2 cloud_msg;
-    if (map.exists(layer)) {
-      grid_map::GridMapRosConverter::toPointCloud(map, layer, cloud_msg);
+    if (map.exists(occupancy_layer_)) {
+      grid_map::GridMapRosConverter::toPointCloud(map, occupancy_layer_, cloud_msg);
       cloud_msg.header = msg->header;
       publisher_->publish(cloud_msg);
     } else {
-      RCLCPP_WARN(this->get_logger(), "Layer '%s' not found in grid map!", layer.c_str());
+      RCLCPP_WARN(this->get_logger(), "Layer '%s' not found in grid map!", occupancy_layer_.c_str());
     }
   }
 
-  bool lower_bound_;
+  // bool lower_bound_;
+  std::string occupancy_layer_;
   rclcpp::Subscription<grid_map_msgs::msg::GridMap>::SharedPtr subscription_;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr publisher_;
 };

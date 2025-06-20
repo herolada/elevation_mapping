@@ -10,7 +10,7 @@
     inputs: ["front"]
     front: # A name to identify the input source
       type: pointcloud # Supported types: pointcloud
-      topic: /points/tof
+      topic: /points/sr/tof
       queue_size: 1
       publish_on_update: true # Whether to publish the elevation map after a callback from this source.
       sensor_processor:

@@ -1,16 +1,14 @@
 /**:
   ros__parameters:
 
-    # lower_bound:                                false # false means more "conservative" elevation map (more obstacles)
-    min_height:                                 0.5
-    max_height:                                 2.0
-    elevation_layer:                            elevation # more conservative: elevation; less conservative: lower_bound
+    lower_bound:                                false # false means more "conservative" elevation map (more obstacles)
     
     map_frame_id:                               gps_odom
     robot_base_frame_id:                        base_link
     robot_pose_with_covariance_topic:           /gps_odom
     robot_pose_cache_size:                      200
-    inputs: ["front"]
+    inputs: ["front","front_sr","right_sr","left_sr"]
+
     front: # A name to identify the input source
       type: pointcloud # Supported types: pointcloud
       topic: /points/filtered
@@ -19,6 +17,34 @@
       sensor_processor:
         type: perfect
         ignore_points_above: 1.0
+
+    front_sr: # A name to identify the input source
+      type: pointcloud # Supported types: pointcloud
+      topic: /points/sr/stereo/front
+      queue_size: 1
+      publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+      sensor_processor:
+        type: perfect
+        ignore_points_above: 1.0
+    
+    right_sr: # A name to identify the input source
+      type: pointcloud # Supported types: pointcloud
+      topic: /points/sr/stereo/right
+      queue_size: 1
+      publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+      sensor_processor:
+        type: perfect
+        ignore_points_above: 1.0
+    
+    left_sr: # A name to identify the input source
+      type: pointcloud # Supported types: pointcloud
+      topic: /points/sr/stereo/left
+      queue_size: 1
+      publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+      sensor_processor:
+        type: perfect
+        ignore_points_above: 1.0
+
     track_point_frame_id:                       base_link
     track_point_x:                              0.0
     track_point_y:                              0.0
@@ -30,7 +56,7 @@
 
     # Map.
     length_in_x:                                20.0
-    length_in_y:                                20.0
+    length_in_y:                                10.0
     #position_x:                                 0.0    #irrelevant
     #position_y:                                 0.0    #irrelevant
     resolution:                                 0.2
