@@ -2,8 +2,8 @@
   ros__parameters:
 
     # lower_bound:                                false # false means more "conservative" elevation map (more obstacles)
-    min_height:                                 0.5
-    max_height:                                 2.0
+    min_height:                                 0.3
+    max_height:                                 1.0
     elevation_layer:                            elevation # more conservative: elevation; less conservative: lower_bound
     
     map_frame_id:                               gps_odom
