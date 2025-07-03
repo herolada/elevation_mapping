@@ -23,22 +23,22 @@ def launch_setup(context, *args, **kwargs):
     ]
 
     return [
-        Node(
-            package='elevation_mapping',
-            executable='gridmap_to_pointcloud_node',
-            name='gridmap_to_pointcloud_node',
-            output='screen',
-            parameters=list_params,
-            remappings=remappings,
-        ),
-        Node(
-            package='elevation_mapping',
-            executable='elevation_to_occupancy_node',
-            name='elevation_to_occupancy_node',
-            output='screen',
-            parameters=list_params,
-            remappings=remappings,
-        ),
+        # Node(
+        #     package='elevation_mapping',
+        #     executable='gridmap_to_pointcloud_node',
+        #     name='gridmap_to_pointcloud_node',
+        #     output='screen',
+        #     parameters=list_params,
+        #     remappings=remappings,
+        # ),
+        # Node(
+        #     package='elevation_mapping',
+        #     executable='elevation_to_occupancy_node',
+        #     name='elevation_to_occupancy_node',
+        #     output='screen',
+        #     parameters=list_params,
+        #     remappings=remappings,
+        # ),
         Node(
             package='elevation_mapping',
             executable='elevation_mapping',

@@ -14,10 +14,11 @@ public:
     min_height_ = this->declare_parameter("min_height", 0.5);
     max_height_ = this->declare_parameter("max_height", 2.0);
     occupancy_layer_ = this->declare_parameter("elevation_layer", std::string("elevation"));
+    elevation_topic_ = this->declare_parameter("elevation_topic", std::string("elevation_map"));
 
     // Subscriber to elevation map
     subscription_ = this->create_subscription<grid_map_msgs::msg::GridMap>(
-      "elevation_map", 10,
+      elevation_topic_, 10,
       std::bind(&ElevationToOccupancyNode::mapCallback, this, std::placeholders::_1));
 
     // Publisher for occupancy grid
@@ -64,6 +65,7 @@ private:
   double min_height_;
   double max_height_;
   std::string occupancy_layer_;
+  std::string elevation_topic_;
 };
 
 int main(int argc, char **argv)
