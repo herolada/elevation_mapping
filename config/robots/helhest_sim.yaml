@@ -1,0 +1,88 @@
+/**:
+  ros__parameters:
+
+    # lower_bound:                                false # false means more "conservative" elevation map (more obstacles)
+    min_height:                                 0.5
+    max_height:                                 1.5
+    elevation_layer:                            elevation # more conservative: elevation; less conservative: lower_bound
+    elevation_topic:                            elevation_map
+
+    map_frame_id:                               gps_odom
+    robot_base_frame_id:                        base_link
+    robot_pose_with_covariance_topic:           /gps_odom
+    robot_pose_cache_size:                      200
+    inputs: ["front","right_sr","left_sr"] # front_sr]
+
+    front: # A name to identify the input source
+      type: pointcloud # Supported types: pointcloud
+      topic: /points/all  #/points/filtered
+      queue_size: 1
+      publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+      sensor_processor:
+        type: perfect
+        ignore_points_above: 1.5
+
+    # front_sr: # A name to identify the input source
+    #   type: pointcloud # Supported types: pointcloud
+    #   topic: /points/sr/stereo/front
+    #   queue_size: 1
+    #   publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    #   sensor_processor:
+    #     type: perfect
+    #     ignore_points_above: 1.5
+    
+    right_sr: # A name to identify the input source
+      type: pointcloud # Supported types: pointcloud
+      topic: /points/sr/stereo/right
+      queue_size: 1
+      publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+      sensor_processor:
+        type: perfect
+        ignore_points_above: 1.5
+    
+    left_sr: # A name to identify the input source
+      type: pointcloud # Supported types: pointcloud
+      topic: /points/sr/stereo/left
+      queue_size: 1
+      publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+      sensor_processor:
+        type: perfect
+        ignore_points_above: 1.5
+
+    track_point_frame_id:                       base_link
+    track_point_x:                              0.0
+    track_point_y:                              0.0
+    track_point_z:                              0.0
+    min_update_rate:                            2.0
+    time_tolerance:                             1.0
+    time_offset_for_point_cloud:                0.0
+    robot_motion_map_update/covariance_scale:   0.01
+
+    # Map.
+    length_in_x:                                20.0
+    length_in_y:                                20.0
+    #position_x:                                 0.0    #irrelevant
+    #position_y:                                 0.0    #irrelevant
+    resolution:                                 0.2
+    min_variance:                               0.0001  
+    max_variance:                               0.05    
+    mahalanobis_distance_threshold:             2.5     # higher means more dynamic(?) (e.g. a new measurement which is more than 2.5 sigma
+                                                        # from the current meaurement distribution of the cell is ignored)
+    multi_height_noise:                         0.001   # higher means more dynamic but more noisy
+    surface_normal_positive_axis:               z
+    fused_map_publishing_rate:                  5.0
+    enable_visibility_cleanup:                  false # true: vymazava mapu za objektem ktery prochazi skrz FOV
+    visibility_cleanup_rate:                    1.0
+    scanning_duration:                          0.1 # set to time between two full scans of stereo pcd, only relevant if visibility cleanup is enabled, can combat the sparsness if increased
+    enable_continuous_cleanup:                  false # true: only keep last scan TODO: try out
+
+    num_callback_threads:                       1 # 1 is deault
+
+    # Init submap
+    initialize_elevation_map:                   false
+    initialization_method:                      0
+    length_in_x_init_submap:                    1.6
+    length_in_y_init_submap:                    1.6
+    init_submap_height_offset:                  0.01
+    init_submap_variance:                       0.001
+    target_frame_init_submap:                   base_link
